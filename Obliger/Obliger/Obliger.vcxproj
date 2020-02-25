@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="oblig_1.cpp" />
+    <ClCompile Include="oblig_2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LesData2.h" />

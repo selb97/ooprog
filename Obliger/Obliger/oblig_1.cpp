@@ -1,3 +1,11 @@
+/*
+ *	Programmet lar brukeren registrere og lagre tilbakemeldinger til ulike restauranter
+ *	som han kan skrive ut til skjermen og se på senere.
+ *
+ *	@author Sondre Berntzen
+ */
+
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -27,15 +35,15 @@ void slettAlt();
 // egene funksjoner
 	// fikk ikke bruk for egen funksjoner
 
+
 // globale variabler
-vector <Restaurant*> restaurant;	// lager en global restaurant som alle funksjoner kan bruke
+vector <Restaurant*> gRestauranter;	// lager en global dynamisk array
 
 
-/*	
-	Alle kommentarer kommer til å ligge _UNDER_ hver enkelt funksjon for å 
-	unngå at noen kommentarer ødelegger utskriften.
-*/
-
+/*
+ *	Bruker et typisk oppsett med meny som frode alltid bruker.
+ *	Kjører slettAlt() på slutten for ryddighesskyld i memory.
+ */
 int main()
 {
 	char valg;
@@ -60,27 +68,28 @@ int main()
 	return 0;
 }
 
+
+
 /*
-	Typisk meny som Frode vil at vi skal lage. Inneholder 2 valg og litt utskrift for
-	å pynte på utseendet av programmet.
-*/
-
-
+ *	1. Lager en ny peker til et Restaurant objekt.
+ *	2. Leser data inn i pekeren.
+ *	3. Sender pekeren til vektoren. Kan ikke sende som en faktisk peker,
+ *	siden funksjonen er overloadet.
+ */
 void nyRestaurant()
 {
 	Restaurant* rest = new Restaurant;
 	restaurantLesData(*rest);
-	restaurant.push_back(rest);
+	gRestauranter.push_back(rest);
 }
 
+
+
 /*
-	1.	Lager en ny peker til restaurant.
-	2.	Leser data inn i pekeren.
-	3.	Sender pekeren til vektoren. Kan ikke sende som en faktisk peker,
-		siden funksjonen er overloadet.
-*/
-
-
+ *	Leser inn alle variablene ved hjelp av getline og frode sine standardfunksjoner.
+ *
+ *	@param - restaurant - variabler som ligger inne i Struct.
+ */
 void restaurantLesData(Restaurant& restaurant)
 {
 	cout << "\nNavn:		      ";	getline(cin, restaurant.navn);
@@ -91,7 +100,9 @@ void restaurantLesData(Restaurant& restaurant)
 }
 
 /*
-	Leser inn alle variablene ved hjelp av getline og frode sine standardfunksjoner.
+ *	Skriver ut alle variablene. <cout3
+ *	
+ *	@param - restaurant - variabler som ligger inne i Struct.
 */
 
 void restaurantSkrivData(const Restaurant& restaurant)
@@ -104,29 +115,28 @@ void restaurantSkrivData(const Restaurant& restaurant)
 }
 
 /*
-	Skriver ut alle variablene. <cout3
-*/
+ *	1.	Hvis den dynamiske arrayen er tom får brukeren beskjed om det.
+ *	2.	Hvis den ikke er tom, skriv ut alle verdiene i hvert enkelt objekt i den
+ *		dynamiske arrayen.
+ */
 
 void skrivAlleRestauranter()
 {
-	if (restaurant.size() == 0)
+	if (gRestauranter.size() == 0)
 		cout << "\t\t\tFINNES INGEN DATA I PROGRAM\n";
 
 	else
 	{
 		cout << "\t\t\tSKRIVER ALLE RESTAURANTENE\n";
-		for (int i = 0; i < restaurant.size(); i++)
-			restaurantSkrivData(*restaurant[i]);
+		for (int i = 0; i < gRestauranter.size(); i++)
+			restaurantSkrivData(*gRestauranter[i]);
 	}
 	
 }
 
 /*
-	1.	Hvis den dynamiske arrayen er tom får brukeren beskjed om det.
-	2.	Hvis den ikke er tom, skriv ut alle verdiene i hvert enkelt objekt i den
-		dynamiske arrayen.
-*/
-
+ *	Skriver bare en meny.
+ */
 void skrivMeny()
 {
 	cout	<< "\nKnapp\tM E N Y V A L G \n\n"
@@ -135,27 +145,15 @@ void skrivMeny()
 			<< "(q)\tAvslutt\n";
 }
 
-/*
-	Skriver bare en meny.
-*/
 
+/*
+ *	1.	Blar seg fra start til slutt av den dynamiske arrayen, og
+ *		sletter alle pekerene som er laget.
+ *	2.	Sletter allt innhold i vektoren.
+*/
 void slettAlt()
 {
-	for (int i = 0; i < restaurant.size(); i++)
-		delete restaurant[i];
-	restaurant.clear();
+	for (int i = 0; i < gRestauranter.size(); i++)
+		delete gRestauranter[i];
+	gRestauranter.clear();
 }
-
-/*
-	1.	Blar seg fra start til slutt av den dynamiske arrayen, og
-		sletter alle pekerene som er laget.
-	2.	Sletter allt innhold i vektoren.
-*/
-
-
-/*
-	Sluttord: 
-	Jeg ser at oppgaven vil at alt skal lagers i:
-	vector <Restaurant*> gRestauranter. Håper ikke det gjør noe at jeg bruker
-	restaurant i stedet for gRestauranter. :)
-*/
