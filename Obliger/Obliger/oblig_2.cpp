@@ -129,10 +129,25 @@ public:
 };
 
 
-// Globale funkjsoner
+// GLOBALE FUNKSJONER
 
 void skrivMeny();
+void nyInsekt();
+void nyFugl();
+void nyFisk();
+void nySkalldyr();
+void slettAlt();
 
+
+
+// GLOBALE VARIABLER
+
+vector <Insekt*>	insekter;
+vector <Fugl*>		fugler;
+vector <Fisk*>		fisker;
+vector <Skalldyr*>	skalldyr;
+
+int antInsekt = 0, antFugl = 0, antFisk = 0, antSkalldyr = 0;
 
 int main()
 {
@@ -146,23 +161,21 @@ int main()
 	{
 		switch (valg)
 		{
-		case '1': /* funksjon */					break;
-		case '2': /* funksjon */					break;
-		case '3': /* funksjon */					break;
-		case '4': /* funksjon */					break;
+		case '1': nyInsekt();						break;
+		case '2': nyFugl();							break;
+		case '3': nyFisk();							break;
+		case '4': nySkalldyr();						break;
 		default: cout << "\n\tFEIL KNAPP" << endl;	break;
 		}
-		cout << "\n\n-----------------------------------------\n"
-			 << "-----------------------------------------\n"
-			 << "-----------------------------------------\n";
+		
+		cout << "\n\n\n";
 		skrivMeny();
 		valg = lesChar("\nVelg ");
 	}
 
-	//slettAlt();
+	slettAlt();
 	return 0;
 }
-
 
 
 
@@ -174,11 +187,13 @@ int main()
 void Dyr::lesData()
 {
 	cout << "Skriv navn: "; getline(cin, navn);
+	if (navn.empty())
+		navn = "Ukjent";
 }
 
 void Dyr::skrivData()
 {
-	cout << navn << endl;
+	cout << "\nNavn: \t\t" << navn << endl;
 }
 
 
@@ -186,12 +201,14 @@ void Dyr::skrivData()
 void DyrILuft::lesData()
 {
 	cout << "Skriv art: "; getline(cin, art);
+	if (art.empty())
+		art = "Ukjent";
 }
 
 void DyrILuft::skrivData()
 {
 	Dyr::skrivData();
-	cout << art << endl;
+	cout << "Art: \t\t" << art << endl;
 }
 
 
@@ -199,12 +216,14 @@ void DyrILuft::skrivData()
 void DyrIVann::lesData()
 {
 	cout << "Skriv art: "; getline(cin, art);
+	if (art.empty())
+		art = "Ukjent";
 }
 
 void DyrIVann::skrivData()
 {
 	Dyr::skrivData();
-	cout << art << endl;
+	cout << "Art: \t\t" << art << endl;
 }
 
 
@@ -225,9 +244,9 @@ void Insekt::skrivData()
 {
 	DyrILuft::skrivData();
 	if (harVinger == true)
-		cout << "Insektet har vinger";
+		cout << "\t\tInsektet har vinger";
 	else
-		cout << "Insekter har ikke vinger";
+		cout << "\t\tInsekter har ikke vinger";
 }
 
 
@@ -247,9 +266,9 @@ void Fugl::skrivData()
 {
 	DyrILuft::skrivData();
 	if (trekkfugl == true)
-		cout << "Fuglen er trekkfugl";
+		cout << "\t\tFuglen er trekkfugl";
 	else
-		cout << "Fuglen er ikke trekkfugl";
+		cout << "\t\tFuglen er ikke trekkfugl";
 }
 
 
@@ -262,7 +281,7 @@ void Fisk::lesData()
 void Fisk::skrivData()
 {
 	DyrIVann::skrivData();
-	cout << antFinner;
+	cout << "Antall finner: \t" << antFinner;
 }
 
 
@@ -276,7 +295,7 @@ void Skalldyr::skrivData()
 {
 	
 	DyrIVann::skrivData();
-	cout << antFoter;
+	cout << "Antall foter: \t" << antFoter;
 }
 
 
@@ -291,3 +310,81 @@ void skrivMeny()
 		 << "(4)\tSkalldyr\n"
 		 << "(q)\tAvslutt\n";
 }
+
+void nyInsekt()
+{
+	Insekt* ny = new Insekt;
+	cout << "\n............... Insekt " << ++antInsekt << " ...............";
+	ny->skrivData();
+	insekter.push_back(ny);
+}
+
+void nyFugl()
+{
+	Fugl* ny = new Fugl;
+	cout << "\n............... Fugl " << ++antFugl << " ...............";
+	ny->skrivData();
+	fugler.push_back(ny);
+}
+
+void nyFisk()
+{
+	string navn;
+	cout << "Skriv navn: "; getline(cin, navn);
+
+	if (navn.empty())
+	{ 
+		cout << "\nVi prover pa nytt...\n";
+		Fisk* ny = new Fisk;
+		cout << "\n............... Fisk " << ++antFisk << " ...............";
+		ny->skrivData();
+		fisker.push_back(ny);
+	}
+	else
+	{
+		Fisk* ny = new Fisk(navn);
+		cout << "\n............... Fisk " << ++antFisk << " ...............";
+		ny->skrivData();
+		fisker.push_back(ny);
+	}
+		
+}
+
+void nySkalldyr()
+{
+	Skalldyr* ny = new Skalldyr;
+	cout << "\n............... Skalldyr " << ++antSkalldyr << " ...............";
+	ny->skrivData();
+	skalldyr.push_back(ny);
+}
+
+void slettAlt()
+{
+	for (int i = 0; i < insekter.size(); i++)
+	{
+		delete insekter[i];
+		// --antInsekt;
+	}
+
+	for (int i = 0; i < fugler.size(); i++)
+	{
+		delete fugler[i];
+		// --antFugl;
+	}
+
+	for (int i = 0; i < fisker.size(); i++)
+	{
+		delete fisker[i]; 
+		// --antFisk;
+	}
+
+	for (int i = 0; i < skalldyr.size(); i++)
+	{
+		delete skalldyr[i];
+		// --antSkalldyr;
+	}
+
+	insekter.clear(); fugler.clear(); fisker.clear(); skalldyr.clear();
+
+}
+
