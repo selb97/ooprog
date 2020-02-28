@@ -1,3 +1,10 @@
+/*
+ *	Programmet lar brukeren registrere og lagre tilbakemeldinger til ulike restauranter
+ *	som han kan skrive ut til skjermen og se på senere.
+ *
+ *	@author Sondre Berntzen
+ */
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -6,6 +13,10 @@
 using namespace std;
 
 
+/**
+ *	Hovedklasse i programmet.
+ *
+ */
 class Dyr
 {
 private:
@@ -26,6 +37,10 @@ public:
 
 };
 
+/**
+ *	Underklasse av Dyr, mer spesifikt dyr i luft.
+ *
+ */
 class DyrILuft : public Dyr
 {
 private:
@@ -41,6 +56,10 @@ public:
 	void skrivData();
 };
 
+/**
+ *	Underklasse av Dyr, mer spesifikt dyr i vann.
+ *
+ */
 class DyrIVann : public Dyr
 {
 private:
@@ -62,6 +81,10 @@ public:
 	void skrivData();
 };
 
+/**
+ *	Underklasse av Dyr i Luft, Insekter.
+ *
+ */
 class Insekt : public DyrILuft
 {
 private:
@@ -77,6 +100,10 @@ public:
 	void skrivData();
 };
 
+/**
+ *	Underklasse av Dyr i Luft, Fugler.
+ *
+ */
 class Fugl : public DyrILuft
 {
 private:
@@ -92,6 +119,10 @@ public:
 	void skrivData();
 };
 
+/**
+ *	Underklasse av Dyr i Vann, Fisker.
+ *
+ */
 class Fisk : public DyrIVann
 {
 private:
@@ -113,6 +144,10 @@ public:
 	void skrivData();
 };
 
+/**
+ *	Underklasse av Dyr i Vann, Skalldyr.
+ *
+ */
 class Skalldyr : public DyrIVann
 {
 private:
@@ -142,12 +177,13 @@ void slettAlt();
 
 // GLOBALE VARIABLER
 
-vector <Insekt*>	insekter;
-vector <Fugl*>		fugler;
-vector <Fisk*>		fisker;
-vector <Skalldyr*>	skalldyr;
+vector <Insekt*>	insekter;		///< Datastrukturen med alle insekter
+vector <Fugl*>		fugler;			///< Datastrukturen med alle fugler
+vector <Fisk*>		fisker;			///< Datastrukturen med alle fisker
+vector <Skalldyr*>	skalldyr;		///< Datastrukturen med alle skalldyr
 
-int antInsekt = 0, antFugl = 0, antFisk = 0, antSkalldyr = 0;
+/// Teller antall datamedlemmer i strukturer
+int antInsekt = 0, antFugl = 0, antFisk = 0, antSkalldyr = 0; 
 
 int main()
 {
@@ -184,6 +220,11 @@ int main()
 
 
 //	-----------------------------------------------------------------DYR-----------------------------------------------------------------
+
+/**
+ *  Dyr sin lesdata
+ *
+ */
 void Dyr::lesData()
 {
 	cout << "Skriv navn: "; getline(cin, navn);
@@ -191,6 +232,10 @@ void Dyr::lesData()
 		navn = "Ukjent";
 }
 
+/**
+ *  Dyr sin skrivData
+ *
+ */
 void Dyr::skrivData()
 {
 	cout << "\nNavn: \t\t" << navn << endl;
@@ -198,6 +243,11 @@ void Dyr::skrivData()
 
 
 //	--------------------------------------------------------------DYR I LUFT--------------------------------------------------------------
+
+/**
+ *  Dyr i Luft sin lesdata
+ *
+ */
 void DyrILuft::lesData()
 {
 	cout << "Skriv art: "; getline(cin, art);
@@ -205,6 +255,10 @@ void DyrILuft::lesData()
 		art = "Ukjent";
 }
 
+/**
+ *  Dyr i Luft sin skrivData
+ *
+ */
 void DyrILuft::skrivData()
 {
 	Dyr::skrivData();
@@ -213,6 +267,11 @@ void DyrILuft::skrivData()
 
 
 //	--------------------------------------------------------------DYR I VANN--------------------------------------------------------------
+
+/**
+ *  Dyr i Vann sin lesdata
+ *
+ */
 void DyrIVann::lesData()
 {
 	cout << "Skriv art: "; getline(cin, art);
@@ -220,6 +279,10 @@ void DyrIVann::lesData()
 		art = "Ukjent";
 }
 
+/**
+ *  Dyr i Vann sin skrivData
+ *
+ */
 void DyrIVann::skrivData()
 {
 	Dyr::skrivData();
@@ -228,6 +291,11 @@ void DyrIVann::skrivData()
 
 
 //	----------------------------------------------------------------INSEKT----------------------------------------------------------------
+
+/**
+ *  Insekt sin lesdata
+ *
+ */
 void Insekt::lesData()
 {
 	char c;
@@ -240,6 +308,10 @@ void Insekt::lesData()
 	c == 'Y' ? harVinger = true : harVinger = false;
 }
 
+/**
+ *  Insekt sin skrivdata
+ *
+ */
 void Insekt::skrivData()
 {
 	DyrILuft::skrivData();
@@ -251,6 +323,11 @@ void Insekt::skrivData()
 
 
 //	-----------------------------------------------------------------FUGL-----------------------------------------------------------------
+
+/**
+ *  Fugl sin lesdata
+ *
+ */
 void Fugl::lesData()
 {
 	char c;
@@ -262,6 +339,10 @@ void Fugl::lesData()
 	c == 'Y' ? trekkfugl = true : trekkfugl= false;
 }
 
+/**
+ *  Fugl sin skrivdata
+ *
+ */
 void Fugl::skrivData()
 {
 	DyrILuft::skrivData();
@@ -273,11 +354,20 @@ void Fugl::skrivData()
 
 
 //	-----------------------------------------------------------------FISK-----------------------------------------------------------------
+
+/**
+ *  Fisk sin lesdata
+ *
+ */
 void Fisk::lesData()
 {
 	antFinner = lesInt("Har fisken mange finner?", 1, 6);
 }
 
+/**
+ *  Fisk sin skrivdata
+ *
+ */
 void Fisk::skrivData()
 {
 	DyrIVann::skrivData();
@@ -286,11 +376,20 @@ void Fisk::skrivData()
 
 
 //	---------------------------------------------------------------SKALLDYR---------------------------------------------------------------
+
+/**
+ *  Skalldyr sin lesdata
+ *
+ */
 void Skalldyr::lesData()
 {
 	antFoter = lesInt("Har skalldyret mange foter?", 1, 6);
 }
 
+/**
+ *  Skalldyr sin skrivdata
+ *
+ */
 void Skalldyr::skrivData()
 {
 	
@@ -301,6 +400,10 @@ void Skalldyr::skrivData()
 
 //	-----------------------------------------------------------------GLOBAL----------------------------------------------------------------
 
+/**
+ *  Skriver menyen til brukeren
+ *
+ */
 void skrivMeny()
 {
 	cout << "\nKnapp\tM E N Y V A L G \n\n"
@@ -311,6 +414,11 @@ void skrivMeny()
 		 << "(q)\tAvslutt\n";
 }
 
+/**
+ *  Lager ett nytt Insekt objekt, skriver ut dataen og sender det inn i datastrukturen
+ *
+ *	@see Insekt::skrivData()
+ */
 void nyInsekt()
 {
 	Insekt* ny = new Insekt;
@@ -319,6 +427,11 @@ void nyInsekt()
 	insekter.push_back(ny);
 }
 
+/**
+ *  Lager ett nytt Fugl objekt, skriver ut dataen og sender det inn i datastrukturen
+ *
+ *	@see Fugl::skrivData()
+ */
 void nyFugl()
 {
 	Fugl* ny = new Fugl;
@@ -327,6 +440,11 @@ void nyFugl()
 	fugler.push_back(ny);
 }
 
+/**
+ *  Lager ett nytt Fisk objekt, skriver ut dataen og sender det inn i datastrukturen
+ *
+ *	@see Fisk::skrivData()
+ */
 void nyFisk()
 {
 	string navn;
@@ -350,6 +468,11 @@ void nyFisk()
 		
 }
 
+/**
+ *  Lager ett nytt Skalldyr objekt, skriver ut dataen og sender det inn i datastrukturen
+ *
+ *	@see Skalldyr::skrivData()
+ */
 void nySkalldyr()
 {
 	Skalldyr* ny = new Skalldyr;
@@ -358,6 +481,10 @@ void nySkalldyr()
 	skalldyr.push_back(ny);
 }
 
+/**
+ *  Sletter alle objekter og tømmer datastrukturene
+ *
+ */
 void slettAlt()
 {
 	for (int i = 0; i < insekter.size(); i++)
